@@ -1,0 +1,26 @@
+{
+  "name": "LITReview",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "ncp node_modules/bootstrap/dist/css static/css && ncp node_modules/bootstrap/dist/js static/js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bubhux/Projet-web-LITReview.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bubhux/Projet-web-LITReview/issues"
+  },
+  "homepage": "https://github.com/Bubhux/Projet-web-LITReview#readme",
+  "devDependencies": {
+    "ncp": "^2.0.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0"
+  }
+}

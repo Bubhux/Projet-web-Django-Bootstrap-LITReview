@@ -1,0 +1,39 @@
+{% load static %}
+<html>
+    <head>
+        <title>LiteReview !</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar{% if not user.is_authenticated %} sidebar-full-height{% endif %}">
+                    <h1 class="h3">LiteReview</h1>
+                    {% if user.is_authenticated %}
+                        <p class="mb-1">Bonjour, {{ user }} !</p>
+                        <p><a href="{% url 'feed' %}">Mon Flux</a></p>
+                        <p><a href="{% url 'discover' %}">Découvertes</a></p>
+                        <p><a href="{% url 'user_profile' request.user %}">Mon Profil</a></p>
+                        {% if user.profile_photo %}
+                            <div class="text-center">
+                                <img class="avatar mx-auto" src="{{ user.profile_photo.url }}">
+                            </div>
+                        {% else %}
+                            <img class="avatar" src="{% static 'images/default_profile.png' %}">
+                        {% endif %}
+                        <div class="content-section sticky-top">
+                            <p><a class="text-decoration-none" href="{% url 'home' %}">Accueil</a></p>
+                            <p><a class="text-decoration-none" href="{% url 'follow_users' %}">Suivre des utilisateurs</a></p>
+                            <p><a class="text-decoration-none" href="{% url 'upload_profile_photo' %}">Changer la photo de profil</a></p>
+                            <p><a class="text-decoration-none" href="{% url 'password_change' %}">Changer le mot de passe</a></p>
+                            <p>Vous êtes connecté en tant que {{ user }}. <a class="text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-10 main">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
