@@ -1,0 +1,61 @@
+{% extends 'authentication/base.html' %}
+{% load service_extras %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Modifier la critique</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="{{ edit_form.headline.id_for_label }}">Titre</label>
+                            {{ edit_form.headline|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="{{ edit_form.body.id_for_label }}">Critique</label>
+                            {{ edit_form.body|add_class:"form-control" }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ edit_form.rating.id_for_label }}" class="form-label">Note</label>
+                            <select class="form-control" id="{{ edit_form.rating.id_for_label }}" name="{{ edit_form.rating.html_name }}">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="edit_review" value="True">
+                        <button type="submit" class="btn btn-primary mt-2">Sauvegarder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Supprimer la critique ?</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ delete_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+

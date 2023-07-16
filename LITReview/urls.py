@@ -17,17 +17,34 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LoginView, LogoutView
 
+from authentication.views import SignUpPage, logout_user
+from service.views import home, flux, create_ticket, create_review, create_ticket_and_review, edit_ticket, edit_review, user_profile, update_profile_photo, followers_page
 
-
-import authentication.views
-import service.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Application d'authentification
-    path('', authentication.views.LoginPage.as_view(), name='login'),
-    path('signup/', authentication.views.SignupPage.as_view(), name='signup'),
-    path('logout/', authentication.views.SignupPage.logout_user, name='logout'),
+    # Application authentication
+    path('', LoginView.as_view(template_name='authentication/login.html', redirect_authenticated_user=True), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('signup/', SignUpPage.as_view(), name='signup'),
+
+    # Application service
+    path('home/', home, name='home'),
+    path('flux/', flux, name='flux'),
+    path('create-ticket/', create_ticket, name='create_ticket'),
+    path('create-review/', create_ticket_and_review, name='create_ticket_and_review'),
+    path('create-review/<int:ticket_id>/', create_review, name='create_review'),
+
+    path('edit-ticket/<int:ticket_id>/', edit_ticket, name='edit_ticket'),
+    path('edit-review/<int:review_id>/', edit_review, name='edit_review'),
+
+    path('profile/<str:user>/', user_profile, name="user_profile"),
+    path('update-profile-photo/', update_profile_photo, name="update_profile_photo"),
+    path('profile/<str:user>/followers', followers_page, name="followers_page"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,123 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+{% load service_extras %}
+
+{% block content %}
+
+    <div class="main">
+        {%if user.username == requested_user.username %}
+            <a href="{% url 'user_profile' user.username %}">
+                {% if user.profile_photo %}
+                    <img class="profile-pic rounded mb-2 mt-2" src="{{ user.profile_photo.url }}" style="width: 80px; height: 80px;">
+                {% else %}
+                    <img class="profile-pic rounded mb-2 mt-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                {% endif %}
+            </a>
+        <p><b><a href="{% url 'user_profile' user.username %}">{{ user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <h5>Abonnements</h5>
+        {% else %}
+            <a href="{% url 'user_profile' requested_user.username %}">
+            {% if requested_user.profile_photo %}
+                <img class="profile-pic rounded" src="{{ requested_user.profile_photo.url }}" style="width: 80px; height: 80px;">
+            {% else %}
+                <img class="profile-pic rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+            {% endif %}
+                </a>
+        <p><a href="{% url 'user_profile' requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <h2>Abonnements de {{ requested_user.username }}</h2>
+        {% endif %}
+
+        <div class="container__feed followers">
+            {%if request.user.username == requested_user.username %}
+                <h7>Suivre d'autres utilisateurs</h7>
+                <div class="form__search mt-2">
+                    <form class="d-flex" role="search" method="post" action="{% url 'followers_page' requested_user.username %}">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" name="search" placeholder="Rechercher un utilisateur" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Rechercher</button>
+                    </form>
+                    
+                </div>
+                {% if searched_user_resp %}
+                    <div class="user-follower__user">
+                        <div class="user-follower">
+                            <a href="{% url 'user_profile' searched_user_resp.username %}">
+                                {% if searched_user_resp.profile_photo %}
+                                    <img class="profile-pic-small rounded mt-3" src="{{ searched_user_resp.profile_photo.url }}" style="width: 80px; height: 80px;">
+                                {% else %}
+                                    <img class="profile-pic-small rounded mt-3" src="{% static 'img/default_profile.png' %}"style="width: 80px; height: 80px;">
+                                {% endif %}
+                            </a>
+                            <div class="mt-2">
+                                <p><a href="{% url 'user_profile' searched_user_resp.username %}"><strong>{{ searched_user_resp.username }}</strong></a></p>
+                                <form method="post" class="d-inline">
+                                    {{ searched_user_btn.as_p }}
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary mb-2" type="submit">S'abonner</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+            {% endif %}
+
+            {% if user_follows %}
+                <div class="mt-2">
+                    <h5 class="mb-3">Abonnements ({{ user_follows|length }})</h5>
+                    <div class="row">
+                        {% for user, form in group_user_follows.items %}
+                            <div class="col-md-2">
+                                <div class="user-follower__user">
+                                    <div class="user-follower">
+                                        <a href="{% url 'user_profile' user.username %}">
+                                            {% if user.profile_photo %}
+                                                <img class="profile-pic-small rounded" src="{{ user.profile_photo.url }}" style="width: 80px; height: 80px;">
+                                            {% else %}
+                                                <img class="profile-pic-small rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                                            {% endif %}
+                                        </a>
+                                        <div class="mt-2">
+                                            <p><a href="{% url 'user_profile' user.username %}"><strong>{{ user.username }}</strong></a></p>
+                                        </div>
+                                    </div>
+                                    {% if request.user.username == requested_user.username %}
+                                        <div>
+                                            <form method="post" class="d-inline">
+                                                {% csrf_token %}
+                                                {{ form.as_p }}
+                                                <button class="btn btn-primary mb-3" type="submit">Se désabonner</button>
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if user_followers %}
+                <h5 class="mb-3">Mes abonnés ({{user_followers|length}})</h5>
+                <div class="row">
+                    {% for user in user_followers %}
+                        <div class="col-md-2">
+                            <div class="user-follower d-inline-block">
+                                <a href="{% url 'user_profile' user.username %}">
+                                    {% if user.profile_photo %}
+                                        <img class="profile-pic-small rounded" src="{{ user.profile_photo.url }}" style="width: 80px; height: 80px;">
+                                    {% else %}
+                                        <img class="profile-pic-small rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                                    {% endif %}
+                                </a>
+                                <p><a href="{% url 'user_profile' user.username %}"><strong>{{ user.username }}</strong></a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <hr>
+        </div>
+    </div>
+
+{% endblock content %}

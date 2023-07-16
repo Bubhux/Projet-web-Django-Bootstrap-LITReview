@@ -1,0 +1,215 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+{% load service_extras %}
+
+{% block content %}
+
+<style>
+    .rating img {
+        filter: invert(69%) sepia(80%) saturate(1583%) hue-rotate(11deg) brightness(95%) contrast(96%); 
+    }
+</style>
+
+<div class="col-md-10 main">
+    <h5>Titre 1</h5>
+    <div class="grid-container">
+        <a href="{% url 'create_ticket' %}"><button class="btn">Demander une critique</button></a>
+        <a href="{% url 'create_ticket_and_review' %}"><button class="btn">Publier une critique</button></a>
+    </div>
+    <hr>
+
+    <h5>Mes critiques</h5>
+    <div class="grid-container">
+        {% for review in reviews %}
+            {% if review.user == request.user %}
+                <div class="post mb-3">
+                    <div class="post">
+                        <div class="user-infos">
+                            {% include 'service/partials/user_infos_snippet.html' with user=review.user %}
+                            <p>Critique pour la demande de {{ review.ticket.user.username }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-headline">Titre</label>
+                            <input type="text" class="form-control" id="review-headline" value="{{ review.headline }}" readonly>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="review-body">Description</label>
+                            <textarea class="form-control" id="review-body" rows="3" readonly>{{ review.body }}</textarea>
+                        </div>
+                        {% if ticket.image %}
+                            <div class="col-md-4 mt-2 mb-2">
+                                <img src="{{ review.image.url }}" alt="Image de la critique" class="img-fluid w-50">
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-auto mt-2">
+                            <h6>Note :</h6>
+                            </div>
+                            <div class="col">
+                                <div class="rating">
+                                    {% for i in review.rating|get_range %}
+                                        <img src="{% static 'pictures/star-fill.svg' %}" class="text-primary">
+                                    {% endfor %}
+                                    {% for i in review.rating|get_complement_range %}
+                                        <img src="{% static 'pictures/star.svg' %}" class="text-primary">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mb-1">Date de création : {{ review.time_created }}</p>
+                        <p class="mb-1">Créé par : {{ review.user.username }}</p>
+                        <a href="{% url 'edit_review' review.id %}" class="btn btn-primary">Modifier</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>Aucune critique créé.</p>
+        {% endfor %}
+    </div>
+    <hr>
+    <h5>Mes posts</h5>
+    <div class="grid-container">
+        {% for ticket in tickets %}
+            {% if ticket.user == request.user %}
+                <div class="post mb-3">
+                    <div class="post">
+                        <div class="form-group">
+                            <label for="ticket-title">Titre</label>
+                            <input type="text" class="form-control" id="ticket-title" value="{{ ticket.title }}" readonly>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="ticket-description">Description</label>
+                            <textarea class="form-control" id="ticket-description" rows="3" readonly>{{ ticket.description }}</textarea>
+                        </div>
+                        {% if ticket.image %}
+                            <div class="col-md-4 mt-2 mb-2">
+                                <img src="{{ ticket.image.url }}" alt="Image du ticket" class="img-fluid w-50">
+                            </div>
+                        {% endif %}
+                        <p class="mb-1">Date de création : {{ ticket.time_created }}</p>
+                        <p class="mb-1">Créé par : {{ ticket.user.username }}</p>
+                        <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-primary">Modifier</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>Aucun ticket créé.</p>
+        {% endfor %}
+    </div>
+    <hr>
+
+    <h5>Abonnements & Abonnés</h5>
+    <div class="grid-container">
+        {%if user.username == requested_user.username %}
+            <a href="{% url 'update_profile_photo' %}">
+                {% if user.profile_photo %}
+                    <img class="profile-pic rounded mb-2" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil" style="width: 80px; height: 80px;">
+                {% else %}
+                    <img class="profile-pic rounded mb-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                {% endif %}
+            </a>
+            <p><b><a href="{% url 'user_profile' user.username %}">{{ user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <div class="container">
+                <a href="{% url 'create_ticket' %}">
+                    <button class="btn">Demander une critique</button>
+                </a>
+                <a href="{% url 'create_ticket_and_review' %}">
+                    <button class="btn">Publier une critique</button>
+                </a>
+            </div>
+            <h5>Mes Posts</h5>
+        {% else %}
+            {% if requested_user.profile_photo %}
+                <a href="{% url 'user_profile' user=requested_user.username %}">
+                    <img class="profile-pic rounded" src="{{ requested_user.profile_photo.url }}">
+                </a>
+            {% else %}
+                <img class="profile-pic rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+            {% endif %}
+            <p><a href="{% url 'user_profile' username=requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' username=requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+            <form method="post">
+                {{ follow_form.as_p }}
+                {% csrf_token %}
+                <input class="btn" id="follow_btn" type="submit" value="{{ btn_text }}">
+            </form>
+            <h2>Posts de {{ requested_user.username }}</h2>
+        {% endif %}
+
+
+        {% for instance in tickets_and_reviews %}
+
+            {% if instance|model_type == 'Ticket' %}
+
+                <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
+
+                    <div class="user-date">
+                        <div class="user-infos">
+                            {% include 'service/partials/user_infos_snippet.html' with user=instance.user %}
+                            <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                        </div>
+                        <p>{{ instance.time_created }}</p>
+                    </div>
+
+                    {% include 'service/partials/ticket_snippet.html' with ticket=instance %}
+                    <div class="container__buttons">
+                    {% if instance.user == request.user %}
+                        <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
+                    {% endif %}
+                    {% if instance.has_review == False %}
+                        <a href="{% url 'create_review' instance.id %}">
+                            <button class="btn">Poster une critique</button>
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+
+            {% elif instance|model_type == 'Review' %}
+                <div class="container__feed review">
+                    {% include 'service/partials/review_snippet.html' with review=instance %}
+                    {% if instance.user == request.user %}
+                        <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+    </div>
+    <hr>
+
+    <h5>Titre 4</h5>
+    <div class="grid-container">
+        {% for photo in photos %}
+            <div class="post">
+                <img src="{{ photo.image.url }}" class="img-fluid">
+                <p>{{ photo.caption }}</p>
+                <form method="post" action="{% url 'delete_photo' photo.id %}">
+                    {% csrf_token %}
+                    {% if perms.blog.delete_photo %}
+                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    {% endif %}
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    <hr>
+
+    <h5>Titre 5</h5>
+    <div class="grid-container">
+        {% for blog in blogs %}
+            <div class="post">
+                <a href="{% url 'view_blog' blog.id %}">
+                    <h6 class="mb-3">Billet : {{ blog.title }}</h6>
+                    <img src="{{ blog.photo.image.url }}" class="img-fluid">
+                </a>
+                <p class="small">Contributeurs :
+                    {% for contributor in blog.contributors.all %}
+                        {{ contributor.username }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

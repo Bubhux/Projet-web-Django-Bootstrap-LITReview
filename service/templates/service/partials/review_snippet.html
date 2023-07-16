@@ -1,0 +1,49 @@
+{% load service_extras %}
+{% load static %}
+
+<style>
+    .rating img {
+        filter: invert(69%) sepia(80%) saturate(1583%) hue-rotate(11deg) brightness(95%) contrast(96%); 
+    }
+</style>
+
+<div class="user-date">
+    <div class="user-infos">
+        {% include 'service/partials/user_infos_snippet.html' with user=review.user %}
+        <p><a href="{% url 'user_profile' review.user.username %}"><strong>{{ review.user.username }}</strong></a> a publié une critique pour la demande de {{ review.ticket.user.username }}</p>
+    </div>
+    <p>{{ review.time_created }}</p>
+</div>
+<form>
+    <div class="form-group">
+        <label for="review-headline">Titre</label>
+        <input type="text" class="form-control" id="review-headline" value="{{ review.headline }}" readonly>
+    </div>
+    <div class="form-group mb-2">
+        <label for="review-body">Critique</label>
+        <textarea class="form-control" id="review-body" rows="3" readonly>{{ review.body }}</textarea>
+    </div>
+    <div class="row">
+        <div class="col-auto mt-2">
+            <h6>Note :</h6>
+        </div>
+        <div class="col">
+            <div class="rating">
+                {% for i in review.rating|get_range %}
+                    <img src="{% static 'pictures/star-fill.svg' %}" class="text-primary">
+                {% endfor %}
+                {% for i in review.rating|get_complement_range %}
+                    <img src="{% static 'pictures/star.svg' %}" class="text-primary">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container__ticket">
+        {% include 'service/partials/ticket_snippet.html' with ticket=review.ticket %}
+    </div>
+</form>
+
+
+
+

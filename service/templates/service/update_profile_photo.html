@@ -1,0 +1,16 @@
+{% extends 'authentication/base.html' %}
+{% block content %}
+
+<div class=" mt-5">
+    <h5>Télécharger une photo de profil</h5>
+    <form method="post" enctype="multipart/form-data" class="form-inline mt-3">
+        <div class="mb-3">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <small id="{{ form.profile_photo.id_for_label }}Help" class="form-text text-muted">Sélectionnez une image au format JPEG, PNG ou GIF.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Publier</button>
+    </form>
+</div>
+
+{% endblock content %}

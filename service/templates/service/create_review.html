@@ -1,0 +1,57 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mt-10 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 offset-md-4">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5 class="card-title">Publier une critique</h5>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if ticket %}
+                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                            <div class="mb-3">
+                                <label for="id_title" class="form-label">Titre du ticket</label>
+                                <input type="text" class="form-control" id="id_title" name="title" value="{{ ticket.title }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_creator" class="form-label">Créateur du ticket</label>
+                                <input type="text" class="form-control" id="id_creator" value="{{ ticket.user.username }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_ticket_description" class="form-label">Description du ticket</label>
+                                <textarea class="form-control" id="id_ticket_description" rows="5" readonly>{{ ticket.description }}</textarea>
+                            </div>
+                        {% else %}
+                            <h6>À propos de ce livre :</h6>
+                            {{ ticket_form.as_p }}
+                        {% endif %}
+                        <hr>
+                        <h6>Ma critique :</h6>
+                        <div class="mb-3">
+                            {{ review_form.as_p }}
+                            {% csrf_token %}
+                        </div>
+                        <div class="mb-3">
+                            {% csrf_token %}
+                            <label for="id_rating" class="form-label">Note</label>
+                            <select class="form-control" id="id_rating" name="rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Soumettre</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
