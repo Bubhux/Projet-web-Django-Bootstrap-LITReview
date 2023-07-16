@@ -1,0 +1,14 @@
+{% load service_extras %}
+
+<h6>{{ ticket.title }}</h6>
+<div class="photo-description">
+    {% if ticket.image %}
+        <p><img class="photo img-thumbnail" src="{{ ticket.image.url }}" style="width: 150px; height: 200px;"></p>
+    {% endif %}
+    {% if ticket.description|length > 0 %}
+    <div class="form-group">
+        <label for="ticket-description">Description</label>
+        <textarea class="form-control" id="ticket-description" rows="3" readonly>{{ ticket.description }}</textarea>
+    </div>
+    {% endif %}
+</div>

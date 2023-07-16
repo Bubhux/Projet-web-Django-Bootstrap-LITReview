@@ -1,0 +1,72 @@
+{% extends 'authentication/base.html' %}
+{% load service_extras %}
+
+{% block content %}
+
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" id="chk_hide_reviews" onclick="showHide('.review')">
+    <label class="form-check-label" for="chk_hide_reviews">Critiques</label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" id="chk_hide_tickets" onclick="showHide('.ticket')">
+    <label class="form-check-label" for="chk_hide_tickets">Demandes</label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" id="chk_hide_reviewed_tickets" onclick="showHide('.reviewed')">
+    <label class="form-check-label" for="chk_hide_reviewed_tickets">Demandes répondues</label>
+</div>
+<hr>
+<div>
+    <p><a class="text-decoration-none" href="{% url 'update_profile_photo' %}">Changer la photo de profil</a></p>
+</div>
+
+{% for instance in tickets_and_reviews %}
+    {% if instance|model_type == 'Ticket' %}
+        <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
+            <div class="user-date">
+                <div class="user-infos">
+                    {% include 'service/partials/user_infos_snippet.html' with user=instance.user %}
+                    <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
+                </div>
+                <p>{{ instance.time_created }}</p>
+            </div>
+
+            <div class="form-group">
+                <label for="ticket-title">Titre :</label>
+                <input type="text" class="form-control" id="ticket-title" value="{{ instance.title }}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="ticket-description">Description :</label>
+                <textarea class="form-control" id="ticket-description" rows="3" readonly>{{ instance.description }}</textarea>
+            </div>
+
+            {% if instance.image %}
+                <div class="form-group col-md-4 mt-2 mb-2">
+                    <img src="{{ instance.image.url }}" alt="Image du ticket" class="img-fluid w-50">
+                </div>
+            {% endif %}
+
+            <div class="container__buttons">
+                {% if instance.user == request.user %}
+                    <a href="{% url 'edit_ticket' instance.id %}" class="btn btn-primary">Modifier / supprimer la demande</a>
+                {% endif %}
+                {% if instance.has_review == False %}
+                    <a href="{% url 'create_review' instance.id %}" class="btn btn-success">Poster une critique</a>
+                {% endif %}
+            </div>
+            
+        </div>
+
+    {% elif instance|model_type == 'Review' %}
+        <div class="container__feed review">
+            {% include 'service/partials/review_snippet.html' with review=instance %}
+            {% if instance.user == request.user %}
+                <a href="{% url 'edit_review' instance.id %}" class="btn btn-primary mt-3">Éditer / supprimer la critique</a>
+            {% endif %}
+        </div>
+        <hr>
+    {% endif %}
+{% endfor %}
+
+{% endblock content %}

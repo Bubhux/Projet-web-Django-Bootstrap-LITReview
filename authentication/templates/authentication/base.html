@@ -1,39 +1,201 @@
 {% load static %}
-<html>
-    <head>
-        <title>LiteReview !</title>
-        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-2 sidebar{% if not user.is_authenticated %} sidebar-full-height{% endif %}">
-                    <h1 class="h3">LiteReview</h1>
-                    {% if user.is_authenticated %}
-                        <p class="mb-1">Bonjour, {{ user }} !</p>
-                        <p><a href="{% url 'feed' %}">Mon Flux</a></p>
-                        <p><a href="{% url 'discover' %}">Découvertes</a></p>
-                        <p><a href="{% url 'user_profile' request.user %}">Mon Profil</a></p>
-                        {% if user.profile_photo %}
-                            <div class="text-center">
-                                <img class="avatar mx-auto" src="{{ user.profile_photo.url }}">
-                            </div>
-                        {% else %}
-                            <img class="avatar" src="{% static 'images/default_profile.png' %}">
-                        {% endif %}
-                        <div class="content-section sticky-top">
-                            <p><a class="text-decoration-none" href="{% url 'home' %}">Accueil</a></p>
-                            <p><a class="text-decoration-none" href="{% url 'follow_users' %}">Suivre des utilisateurs</a></p>
-                            <p><a class="text-decoration-none" href="{% url 'upload_profile_photo' %}">Changer la photo de profil</a></p>
-                            <p><a class="text-decoration-none" href="{% url 'password_change' %}">Changer le mot de passe</a></p>
-                            <p>Vous êtes connecté en tant que {{ user }}. <a class="text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a></p>
-                        </div>
-                    {% endif %}
-                </div>
-                <div class="col-md-10 main">
-                    {% block content %}{% endblock %}
+
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <script src="/static/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.112.5">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <link href="/static/css/bootstrap-reboot.min.css" rel="stylesheet">
+
+    <title>LiteReview</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+    <style>
+        .navbar-custom {
+            height: 80px;
+        }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .center-block {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+    {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-custom">
+            <div class="container-fluid">
+                <img class="mt-1" src="/static/pictures/litereview.png" alt="" width="60" height="60">
+                <a class="navbar-brand ms-1" href="#">LITReview</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'flux' %}">Flux</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Posts</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Abonnements
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
+        </nav>
+    {% endif %}
+
+<body>
+    <div class="container mt-2 ms-2">
+        {% if user.is_authenticated %}
+            <div class="row min-vh-100">
+                <div class="border rounded col-md-2 sidebar {% if not user.is_authenticated %} sidebar-full-height{% endif %}">
+                    <!--<h1 class="h3">LiteReview</h1>-->
+
+                    <p class="mb-1">Bonjour, {{ user }} !</p>
+
+                    {% if user.profile_photo %}
+                        <div>
+                            <img class="avatar mx-auto rounded" src="{{ user.profile_photo.url }}" style="width: 80px; height: 80px;">
+                        </div>
+                    {% else %}
+                        <img class="avatar rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                    {% endif %}
+                    <div class="content-section sticky-top mt-2">
+                        <p class="mt-1 mb-1"><a class="text-decoration-none" href="{% url 'home' %}">Accueil</a></p>
+                        {% if user.username %}
+                            <p class="mt-1 mb-1"><a class="text-decoration-none" href="{% url 'user_profile' user.username %}">Mon profil</a></p>
+                        {% endif %}
+
+                        <p>Vous êtes connecté en tant que {{ user }}. <a class="text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a></p>
+                    </div>
+                </div>
+        {% endif %}
+            <div class="col-md-10 main">
+                {% block content %}{% endblock %}
+            </div>
         </div>
-    </body>
+    </div>
+
+    <footer class="footer mt-auto pt-2 mb-2">
+        {% if user.is_authenticated %}
+            <div class="card card-sm mx-2">
+                <div class="card-header">LITReview</div>
+                <div class="card-body">
+                    <h5 class="card-title fs-6">Le site des passionnés des livres</h5>
+                    <!--<p class="card-text fs-6">With supporting text below as a natural lead-in to additional content.</p>-->
+                    <a href="#" class="btn btn-primary btn-sm mt-3">Retourner en haut</a>
+                    <div class="position-absolute bottom-0 end-0 mt-2">
+                        <div class="d-flex justify-content-end align-items-start">
+                            <img src="/static/pictures/whatsapp.png" alt="Image logo" class="img-fluid me-1" style="max-width: 35px;">
+                            <img src="/static/pictures/instagram.png" alt="Image logo" class="img-fluid me-1" style="max-width: 35px;">
+                            <img src="/static/pictures/twitter.png" alt="Image logo" class="img-fluid me-1" style="max-width: 35px;">
+                            <img src="/static/pictures/facebook.png" alt="Image logo" class="img-fluid me-1" style="max-width: 35px;">
+                        </div>
+                        <h6 class="text-end mt-1" style="margin-right: 5px;">Retrouvez nous sur les réseaux</h6>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </footer>
+</body>
 </html>
+

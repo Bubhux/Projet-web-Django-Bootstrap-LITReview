@@ -1,0 +1,14 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+
+    <h4>Télécharger une photo de profil</h4>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Publier</button>
+    </form>
+
+{% endblock content %}
