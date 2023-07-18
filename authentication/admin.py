@@ -1,8 +1,6 @@
 from django.contrib import admin
 from authentication.models import User
-from django.contrib.contenttypes.models import ContentType
 from service.models import Ticket, Review, UserFollows
-from django.db import models
 
 
 class TicketAdmin(admin.ModelAdmin):
@@ -58,22 +56,23 @@ class UserAdmin(admin.ModelAdmin):
         return obj.follows.count()
 
     get_follows_count.short_description = "Nombre d'utilisateurs suivis"
-    
+
     def username_column(self, obj):
         """
         Renvoie le nom d'utilisateur d'un utilisateur donné.
         """
         return obj.username
     username_column.short_description = "Nom d'utilisateur"
-    
+
     def follows_count_column(self, obj):
         """
         Renvoie le nombre d'utilisateurs suivis par un utilisateur donné.
         """
         return obj.follows.count()
     follows_count_column.short_description = "Nombre d'utilisateurs suivis"
-    
+
     list_display = ('username_column', 'follows_count_column')
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Ticket, TicketAdmin)

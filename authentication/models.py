@@ -46,4 +46,3 @@ def user_pre_save(sender, instance, **kwargs):
     if instance.pk is None:
         # Effectuer les opérations personnalisées pour un nouvel utilisateur
         instance.password = make_password(instance.password)
-

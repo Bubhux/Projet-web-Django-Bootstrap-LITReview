@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.urls import reverse
-
+from django.db.models import Q
 
 from .forms import FollowUserButton, UnfollowUserButton, ReviewForm
 from . import forms, models
@@ -26,7 +26,19 @@ def home(request):
     user_follows = user.follows.all()
     user_followers = user.followed_by_user.all()
 
-    tickets_and_reviews = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
+    # Utilisateurs auxquels l'utilisateur est abonnés
+    following_users = request.user.follows.all()
+
+    # Filtrer les tickets et les critiques
+    # pour inclure uniquement ceux créés par les utilisateurs auxquels l'utilisateur est abonnés
+    tickets = models.Ticket.objects.filter(Q(user__in=following_users) | Q(user=request.user))
+    reviews = models.Review.objects.filter(Q(user__in=following_users) | Q(user=request.user))
+
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
 
     paginator = Paginator(tickets_and_reviews, 5)
     page = request.GET.get('page')
@@ -68,7 +80,11 @@ def flux(request):
     if hide_reviewed_tickets:
         filtered_tickets = filtered_tickets.exclude(has_review=True)
 
-    tickets_and_reviews = sorted(chain(filtered_tickets, filtered_reviews), key=lambda instance: instance.time_created, reverse=True)
+    tickets_and_reviews = sorted(
+        chain(filtered_tickets, filtered_reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
 
     paginator = Paginator(tickets_and_reviews, 4)
     page = request.GET.get('page')
@@ -178,7 +194,10 @@ def create_ticket_and_review(request):
             review.save()
             return redirect('flux')
 
-    return render(request, 'service/create_review.html', context={'ticket_form': ticket_form, 'review_form': review_form})
+    return render(request, 'service/create_review.html', context={
+        'ticket_form': ticket_form,
+        'review_form': review_form}
+    )
 
 
 @login_required
@@ -261,7 +280,7 @@ def user_profile(request, user):
                 btn_text = "Se désabonner"
 
     tickets_and_reviews = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
-    
+
     return render(request, 'service/user_profile.html', context={
         'follow_form': follow_form,
         'btn_text': btn_text,

@@ -14,19 +14,19 @@
                 {% endif %}
             </a>
         <p><b><a href="{% url 'user_profile' user.username %}">{{ user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
-            <h5>Abonnements</h5>
+            <h5>Mes abonnements</h5>
         {% else %}
             <a href="{% url 'user_profile' requested_user.username %}">
             {% if requested_user.profile_photo %}
-                <img class="profile-pic rounded" src="{{ requested_user.profile_photo.url }}" style="width: 80px; height: 80px;">
+                <img class="profile-pic rounded mb-2 mt-2" src="{{ requested_user.profile_photo.url }}" style="width: 80px; height: 80px;">
             {% else %}
-                <img class="profile-pic rounded" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+                <img class="profile-pic rounded mb-2 mt-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
             {% endif %}
                 </a>
         <p><a href="{% url 'user_profile' requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
-            <h2>Abonnements de {{ requested_user.username }}</h2>
+            <h5>Abonnements de {{ requested_user.username }}</h5>
         {% endif %}
-
+        <hr>
         <div class="container__feed followers">
             {%if request.user.username == requested_user.username %}
                 <h7>Suivre d'autres utilisateurs</h7>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             {% endif %}
-
+            <hr>
             {% if user_followers %}
                 <h5 class="mb-3">Mes abonnés ({{user_followers|length}})</h5>
                 <div class="row">
