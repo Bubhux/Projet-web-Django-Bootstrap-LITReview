@@ -10,7 +10,7 @@
 <div class="user-date">
     <div class="user-infos">
         {% include 'service/partials/user_infos_snippet.html' with user=review.user %}
-        <p><a href="{% url 'user_profile' review.user.username %}"><strong>{{ review.user.username }}</strong></a> a publié une critique pour la demande de {{ review.ticket.user.username }}</p>
+        <p><a href="{% url 'user_profile' review.user.username %}"><strong>{{ review.user.username }}</strong></a> a publié une critique pour la demande de <strong>{{ review.ticket.user.username }}</strong></p>
     </div>
     <p>{{ review.time_created }}</p>
 </div>
@@ -19,7 +19,7 @@
         <label for="review-headline">Titre</label>
         <input type="text" class="form-control" id="review-headline" value="{{ review.headline }}" readonly>
     </div>
-    <div class="form-group mb-2">
+    <div class="form-group mt-2">
         <label for="review-body">Critique</label>
         <textarea class="form-control" id="review-body" rows="3" readonly>{{ review.body }}</textarea>
     </div>

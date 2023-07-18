@@ -11,13 +11,6 @@
 </style>
 
 <div class="col-md-10 main">
-    <h5>Titre 1</h5>
-    <div class="grid-container">
-        <a href="{% url 'create_ticket' %}"><button class="btn">Demander une critique</button></a>
-        <a href="{% url 'create_ticket_and_review' %}"><button class="btn">Publier une critique</button></a>
-    </div>
-    <hr>
-
     <h5>Mes critiques</h5>
     <div class="grid-container">
         {% for review in reviews %}
@@ -26,7 +19,7 @@
                     <div class="post">
                         <div class="user-infos">
                             {% include 'service/partials/user_infos_snippet.html' with user=review.user %}
-                            <p>Critique pour la demande de {{ review.ticket.user.username }}</p>
+                            <p>Critique pour la demande de <strong>{{ review.ticket.user.username }}</strong></p>
                         </div>
                         <div class="form-group">
                             <label for="review-headline">Titre</label>
@@ -67,7 +60,7 @@
         {% endfor %}
     </div>
     <hr>
-    <h5>Mes posts</h5>
+    <h5>Mes demandes de critiques</h5>
     <div class="grid-container">
         {% for ticket in tickets %}
             {% if ticket.user == request.user %}
@@ -101,23 +94,9 @@
     <h5>Abonnements & Abonnés</h5>
     <div class="grid-container">
         {%if user.username == requested_user.username %}
-            <a href="{% url 'update_profile_photo' %}">
-                {% if user.profile_photo %}
-                    <img class="profile-pic rounded mb-2" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil" style="width: 80px; height: 80px;">
-                {% else %}
-                    <img class="profile-pic rounded mb-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
-                {% endif %}
-            </a>
             <p><b><a href="{% url 'user_profile' user.username %}">{{ user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
-            <div class="container">
-                <a href="{% url 'create_ticket' %}">
-                    <button class="btn">Demander une critique</button>
-                </a>
-                <a href="{% url 'create_ticket_and_review' %}">
-                    <button class="btn">Publier une critique</button>
-                </a>
-            </div>
-            <h5>Mes Posts</h5>
+            <hr>
+            <h5>Flux abonnements</h5>
         {% else %}
             {% if requested_user.profile_photo %}
                 <a href="{% url 'user_profile' user=requested_user.username %}">
@@ -134,15 +113,12 @@
             </form>
             <h2>Posts de {{ requested_user.username }}</h2>
         {% endif %}
-
-
-        {% for instance in tickets_and_reviews %}
-
+        
+        {% for instance in page_obj %}
             {% if instance|model_type == 'Ticket' %}
-
+                <hr>
                 <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
-
-                    <div class="user-date">
+                    <div class="user-date mt-2">
                         <div class="user-infos">
                             {% include 'service/partials/user_infos_snippet.html' with user=instance.user %}
                             <p><strong>{{ instance.user.username }}</strong> a demandé une critique</p>
@@ -152,62 +128,23 @@
 
                     {% include 'service/partials/ticket_snippet.html' with ticket=instance %}
                     <div class="container__buttons">
-                    {% if instance.user == request.user %}
-                        <a href="{% url 'edit_ticket' instance.id %}">Éditer / supprimer la demande</a>
-                    {% endif %}
-                    {% if instance.has_review == False %}
-                        <a href="{% url 'create_review' instance.id %}">
-                            <button class="btn">Poster une critique</button>
-                        </a>
-                    {% endif %}
+                        {% if instance.user == request.user %}
+                            <a href="{% url 'edit_ticket' instance.id %}"><button type="submit" class="btn btn-primary mt-2">Éditer / supprimer la demande</button></a>
+                        {% endif %}
+                        {% if instance.has_review == False %}
+                            <a href="{% url 'create_review' instance.id %}"><button type="submit" class="btn btn-success mt-3">Poster une critique</button></a>
+                        {% endif %}
                     </div>
                 </div>
-
+                <hr>
             {% elif instance|model_type == 'Review' %}
                 <div class="container__feed review">
                     {% include 'service/partials/review_snippet.html' with review=instance %}
                     {% if instance.user == request.user %}
-                        <a href="{% url 'edit_review' instance.id %}">Éditer / supprimer la critique</a>
+                        <a href="{% url 'edit_review' instance.id %}"><button type="submit" class="btn btn-primary mt-3">Éditer / supprimer la critique</button></a>
                     {% endif %}
                 </div>
             {% endif %}
-        {% endfor %}
-
-    </div>
-    <hr>
-
-    <h5>Titre 4</h5>
-    <div class="grid-container">
-        {% for photo in photos %}
-            <div class="post">
-                <img src="{{ photo.image.url }}" class="img-fluid">
-                <p>{{ photo.caption }}</p>
-                <form method="post" action="{% url 'delete_photo' photo.id %}">
-                    {% csrf_token %}
-                    {% if perms.blog.delete_photo %}
-                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                    {% endif %}
-                </form>
-            </div>
-        {% endfor %}
-    </div>
-    <hr>
-
-    <h5>Titre 5</h5>
-    <div class="grid-container">
-        {% for blog in blogs %}
-            <div class="post">
-                <a href="{% url 'view_blog' blog.id %}">
-                    <h6 class="mb-3">Billet : {{ blog.title }}</h6>
-                    <img src="{{ blog.photo.image.url }}" class="img-fluid">
-                </a>
-                <p class="small">Contributeurs :
-                    {% for contributor in blog.contributors.all %}
-                        {{ contributor.username }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-                
-            </div>
         {% endfor %}
     </div>
 </div>

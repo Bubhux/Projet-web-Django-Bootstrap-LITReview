@@ -24,10 +24,6 @@
         <input class="form-check-input" type="checkbox" role="switch" id="chk_hide_tickets" name="hide_tickets" {% if hide_tickets %}checked{% endif %}>
         <label class="form-check-label" for="chk_hide_tickets">Afficher seulement les réponses aux critiques </label>
     </div>
-    <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="chk_hide_reviewed_tickets" name="hide_reviewed_tickets" {% if hide_reviewed_tickets %}checked{% endif %}>
-        <label class="form-check-label" for="chk_hide_reviewed_tickets">Afficher seulement les demandes répondues</label>
-    </div>
 
     <button type="submit" class="btn btn-primary mt-3">Appliquer</button>
 </form>
@@ -55,7 +51,7 @@
                         <label for="ticket-title">Titre</label>
                         <input type="text" class="form-control" id="ticket-title" value="{{ instance.title }}" readonly>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <label for="ticket-description">Description</label>
                         <textarea class="form-control" id="ticket-description" rows="5" readonly>{{ instance.description }}</textarea>
                     </div>
@@ -87,7 +83,7 @@
                 <div class="container__feed review">
                     {% include 'service/partials/review_snippet.html' with review=instance %}
                     {% if instance.user == request.user %}
-                        <a href="{% url 'edit_review' instance.id %}" class="btn btn-primary mt-2">Éditer / supprimer la critique</a>
+                        <a href="{% url 'edit_review' instance.id %}" class="btn btn-primary mt-3">Éditer / supprimer la critique</a>
                     {% endif %}
 
                     <!-- Afficher les réponses associées à cette critique -->

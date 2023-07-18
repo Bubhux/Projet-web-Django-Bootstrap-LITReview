@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from service.models import Ticket, Review
 from authentication.models import User
 from django.contrib import messages
-from service.models import Response
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.urls import reverse
@@ -17,6 +16,10 @@ from . import forms, models
 
 @login_required
 def home(request):
+    """
+    Affiche la page d'accueil avec les tickets et les critiques.
+    Seuls les utilisateurs connectés peuvent accéder à cette page.
+    """
     user = request.user
     tickets = models.Ticket.objects.all()
     reviews = models.Review.objects.all()
@@ -42,6 +45,10 @@ def home(request):
 
 @login_required
 def flux(request):
+    """
+    Affiche le flux avec les tickets et les critiques.
+    Seuls les utilisateurs connectés peuvent accéder à cette page.
+    """
     tickets = models.Ticket.objects.all()
     reviews = models.Review.objects.all()
 
@@ -77,6 +84,10 @@ def flux(request):
 
 @login_required
 def create_ticket(request):
+    """
+    Crée un ticket.
+    Seuls les utilisateurs connectés peuvent créer un ticket.
+    """
     form = forms.TicketForm()
     if request.method == 'POST':
         form = forms.TicketForm(request.POST, request.FILES)
@@ -95,6 +106,10 @@ def create_ticket(request):
 
 @login_required
 def create_review(request, ticket_id=None):
+    """
+    Crée une critique pour un ticket spécifié.
+    Seuls les utilisateurs connectés peuvent créer une critique.
+    """
     ticket = None
     if ticket_id:
         ticket = get_object_or_404(models.Ticket, id=ticket_id)
@@ -140,6 +155,10 @@ def create_review(request, ticket_id=None):
 
 @login_required
 def create_ticket_and_review(request):
+    """
+    Crée un ticket et une critique simultanément.
+    Seuls les utilisateurs connectés peuvent créer un ticket et une critique.
+    """
     ticket_form = forms.TicketForm()
     review_form = forms.ReviewForm()
     if request.method == 'POST':
@@ -164,6 +183,10 @@ def create_ticket_and_review(request):
 
 @login_required
 def edit_ticket(request, ticket_id):
+    """
+    Modifie un ticket existant.
+    Seuls les utilisateurs connectés peuvent modifier un ticket.
+    """
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     edit_form = forms.TicketForm(instance=ticket)
     delete_form = forms.TicketFormDelete()
@@ -184,6 +207,10 @@ def edit_ticket(request, ticket_id):
 
 @login_required
 def edit_review(request, review_id):
+    """
+    Modifie une critique existante.
+    Seuls les utilisateurs connectés peuvent modifier une critique.
+    """
     review = get_object_or_404(models.Review, id=review_id)
     edit_form = forms.ReviewForm(instance=review)
     delete_form = forms.ReviewFormDelete()
@@ -204,6 +231,10 @@ def edit_review(request, review_id):
 
 @login_required
 def user_profile(request, user):
+    """
+    Affiche le profil de l'utilisateur spécifié.
+    Seuls les utilisateurs connectés peuvent accéder aux profils des utilisateurs.
+    """
     user = User.objects.get(username=user)
     user_follows = user.follows.all()
     user_followers = user.followed_by_user.all()
@@ -230,8 +261,6 @@ def user_profile(request, user):
                 btn_text = "Se désabonner"
 
     tickets_and_reviews = sorted(chain(tickets, reviews), key=lambda instance: instance.time_created, reverse=True)
-
-    #print(requested_user.username)
     
     return render(request, 'service/user_profile.html', context={
         'follow_form': follow_form,
@@ -245,6 +274,10 @@ def user_profile(request, user):
 
 @login_required
 def update_profile_photo(request):
+    """
+    Met à jour la photo de profil de l'utilisateur connecté.
+    Seuls les utilisateurs connectés peuvent mettre à jour leur photo de profil.
+    """
     if request.method == 'POST':
         form = forms.UploadProfilePhotoForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -258,11 +291,21 @@ def update_profile_photo(request):
 
 @login_required
 def followers_page(request, user):
+    """
+    Affiche la page des abonnés d'un utilisateur spécifié.
+    Seuls les utilisateurs connectés peuvent accéder à cette page.
+    Args: request (HttpRequest): L'objet HttpRequest contenant les détails de la requête.
+          user (str): Le nom d'utilisateur de l'utilisateur spécifié.
+    Returns: HttpResponse: La réponse HTTP qui représente la page des abonnés.
+    """
+
+    # Crée un formulaire de recherche d'utilisateur
     search_form = forms.SearchUser()
     searched_user_resp = ""
     requested_user = User.objects.get(username=user)
     searched_user_resp_btn = ''
 
+    # Récupère les abonnements de l'utilisateur spécifié
     user_follows = requested_user.follows.all()
     user_followers = requested_user.followed_by_user.all()
 
@@ -271,13 +314,14 @@ def followers_page(request, user):
         follow_form = forms.FollowUserButton(initial={'user_to_follow': user.id})
         group_user_follows[user] = follow_form
 
-    # Créez le formulaire pour se désabonner
+    # Crée le formulaire pour se désabonner
     unfollow_form = UnfollowUserButton()
 
     if request.method == 'POST':
         follow_form = forms.FollowUserButton(request.POST)
         unfollow_form = UnfollowUserButton(request.POST)
         if follow_form.is_valid():
+            # Ajoute ou supprime un abonnement en fonction de l'état actuel
             user_to_follow = get_object_or_404(User, id=follow_form.cleaned_data['user_to_follow'])
             if request.user.follows.filter(id=user_to_follow.id).exists():
                 request.user.follows.remove(user_to_follow)
@@ -290,6 +334,7 @@ def followers_page(request, user):
             return redirect('followers_page', user=request.user.username)
 
         elif unfollow_form.is_valid():
+            # Supprime un abonnement
             user_to_unfollow = get_object_or_404(User, id=unfollow_form.cleaned_data['user_to_unfollow'])
             request.user.follows.remove(user_to_unfollow)
             user_to_unfollow.followed_by_user.remove(request.user)
@@ -301,6 +346,7 @@ def followers_page(request, user):
 
     search_form = forms.SearchUser(request.POST)
     if search_form.is_valid():
+        # Effectue une recherche d'utilisateur
         query = search_form.cleaned_data['search']
         searched_user = User.objects.filter(username__icontains=query).first()
         if searched_user:
