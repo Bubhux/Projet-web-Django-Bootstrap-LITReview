@@ -31,7 +31,7 @@
                         </div>
                         {% if review.ticket.image %}
                             <div class="col-md-4 mt-2 mb-2">
-                                <img src="{{ review.image.url }}" alt="Image de la critique" class="img-fluid w-50">
+                                <img src="{{ review.ticket.image.url }}" alt="Image de la critique" class="img-fluid w-50">
                             </div>
                         {% endif %}
                         <div class="row">
@@ -140,6 +140,7 @@
                         <a href="{% url 'edit_review' instance.id %}"><button type="submit" class="btn btn-primary mt-3">Éditer / supprimer la critique</button></a>
                     {% endif %}
                 </div>
+                <hr>
             {% endif %}
         {% endfor %}
     </div>
