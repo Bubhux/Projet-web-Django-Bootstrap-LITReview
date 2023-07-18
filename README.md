@@ -144,7 +144,7 @@ Créer ou utiliser un utilisateur déja présent dans la base de données.
 <div id="rapport-flake8"></div>
 
 ## Rapport avec flake8   
--Le repository contient un rapport flake8, qui renvoi ```All good! No flake8 errors found in 2 files scanned```. &rarr; ([.flake8](.flake8))   
+-Le repository contient un rapport flake8, qui renvoi ```All good! No flake8 errors found in 20 files scanned```. &rarr; ([.flake8](.flake8))   
 -Il est possible d'en générer un nouveau en installant le module ```flake8``` s'il n'est pas installé.   
 **-Installation de flake8 en entrant dans votre terminal la commande:**   
 
@@ -171,13 +171,13 @@ flake8 --format=html --htmldir=flake-report
 -**Le dossier authentication**   
   Le dossier est une apps Django qui contient :   
   Un dossier ```migrations``` contenant les fichiers de configuration pour la base de données. &rarr; ([migrations](authentication/migrations))   
-  Un dossier ```templates``` contenant les gabarits html. &rarr; ([templates](authentication/templates))   
+  Un dossier ```templates``` contenant les gabarits html. &rarr; ([templates](authentication/templates/authentication))   
   Á la racine du dossier ```authentication``` les fichiers tels que views.py, models.py, forms.py. &rarr; ([authentication](authentication))   
 
 -**Le dossier service**   
   Le dossier est une apps Django qui contient :   
   Un dossier ```migrations``` contenant les fichiers de configuration pour la base de données. &rarr; ([migrations](service/migrations))   
-  Un dossier ```templates``` contenant les gabarits html. &rarr; ([templates](service/templates))   
+  Un dossier ```templates``` contenant les gabarits html. &rarr; ([templates](service/templates/service))   
   Á la racine du dossier ```service``` les fichiers tels que views.py, models.py, forms.py. &rarr; ([service](service))   
     
   Un dossier ```partials``` contenant les snippets utilisés. &rarr; ([partials](service/templates/service/partials))   

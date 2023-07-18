@@ -1,9 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.html import format_html
-from django.contrib.auth.password_validation import validate_password
 
 from .validators import ContainsLetterValidator, ContainsNumberValidator
 
@@ -16,8 +14,7 @@ class LoginForm(forms.Form):
     Attributes:
         username (CharField): Champ de saisie pour le nom d'utilisateur.
         password (CharField): Champ de saisie pour le mot de passe.
-
-    """ 
+    """
     username = forms.CharField(max_length=63, label='Nom d’utilisateur')
     password = forms.CharField(max_length=63, widget=forms.PasswordInput, label='Mot de passe')
 
@@ -27,7 +24,8 @@ class SignUpForm(forms.ModelForm):
     Formulaire d'inscription.
     Ce formulaire est utilisé pour l'inscription d'un nouvel utilisateur.
     Il hérite du modèle d'utilisateur spécifié dans la configuration.
-    Il contient les champs 'username' (nom d'utilisateur), 'password' (mot de passe) et 'confirm_password' (confirmation du mot de passe).
+    Il contient les champs 'username' (nom d'utilisateur), 'password' (mot de passe)
+    et 'confirm_password' (confirmation du mot de passe).
     Attributes:
         password (CharField): Champ de saisie pour le mot de passe.
         confirm_password (CharField): Champ de saisie pour la confirmation du mot de passe.
@@ -51,7 +49,8 @@ class SignUpForm(forms.ModelForm):
         """
         Validation du champ de mot de passe.
         Cette méthode effectue la validation personnalisée sur le champ de mot de passe.
-        Elle vérifie la longueur minimale du mot de passe et la correspondance avec le champ de confirmation du mot de passe.
+        Elle vérifie la longueur minimale du mot de passe
+        et la correspondance avec le champ de confirmation du mot de passe.
         Returns:
             str: Le mot de passe valide.
         Raises:

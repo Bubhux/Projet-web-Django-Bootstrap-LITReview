@@ -1,5 +1,4 @@
 from django.core.exceptions import ValidationError
-from django.contrib.auth.password_validation import MinimumLengthValidator
 
 
 class ContainsLetterValidator:

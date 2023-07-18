@@ -29,7 +29,7 @@
                             <label for="review-body">Description</label>
                             <textarea class="form-control" id="review-body" rows="3" readonly>{{ review.body }}</textarea>
                         </div>
-                        {% if ticket.image %}
+                        {% if review.ticket.image %}
                             <div class="col-md-4 mt-2 mb-2">
                                 <img src="{{ review.image.url }}" alt="Image de la critique" class="img-fluid w-50">
                             </div>
@@ -55,8 +55,6 @@
                     </div>
                 </div>
             {% endif %}
-        {% empty %}
-            <p>Aucune critique créé.</p>
         {% endfor %}
     </div>
     <hr>
@@ -85,8 +83,6 @@
                     </div>
                 </div>
             {% endif %}
-        {% empty %}
-            <p>Aucun ticket créé.</p>
         {% endfor %}
     </div>
     <hr>

@@ -20,14 +20,26 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView, LogoutView
 
 from authentication.views import SignUpPage, logout_user
-from service.views import home, flux, create_ticket, create_review, create_ticket_and_review, edit_ticket, edit_review, user_profile, update_profile_photo, followers_page
-
+from service.views import (
+    home,
+    flux,
+    create_ticket,
+    create_review,
+    create_ticket_and_review,
+    edit_ticket,
+    edit_review,
+    user_profile,
+    update_profile_photo,
+    followers_page
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Application authentication
-    path('', LoginView.as_view(template_name='authentication/login.html', redirect_authenticated_user=True), name='login'),
+    path('', LoginView.as_view(template_name='authentication/login.html',
+                               redirect_authenticated_user=True), name='login'),
+
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', SignUpPage.as_view(), name='signup'),
 

@@ -1,8 +1,32 @@
 {% extends 'authentication/base.html' %}
+{% load static %}
 {% load service_extras %}
 
 {% block content %}
+
 <h5>Mon Profil</h5>
+{%if user.username == requested_user.username %}
+        <a href="{% url 'user_profile' user.username %}">
+            {% if user.profile_photo %}
+                <img class="profile-pic rounded mb-2 mt-2" src="{{ user.profile_photo.url }}" style="width: 80px; height: 80px;">
+            {% else %}
+                <img class="profile-pic rounded mb-2 mt-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+            {% endif %}
+        </a>
+    <p><b><a href="{% url 'user_profile' user.username %}">{{ user.username }}</a></b> | <a href="{% url 'followers_page' user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+        <h5>Mes Abonnements</h5>
+    {% else %}
+        <a href="{% url 'user_profile' requested_user.username %}">
+        {% if requested_user.profile_photo %}
+            <img class="profile-pic rounded mb-2 mt-2" src="{{ requested_user.profile_photo.url }}" style="width: 80px; height: 80px;">
+        {% else %}
+            <img class="profile-pic rounded mb-2 mt-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
+        {% endif %}
+            </a>
+    <p><a href="{% url 'user_profile' requested_user.username %}"><b>{{ requested_user.username }}</b></a> | <a href="{% url 'followers_page' requested_user.username %}"><b>{{ user_followers|length }}</b> Abonnés | <b>{{ user_follows|length }}</b> Abonnements</a></p>
+        <h5>Abonnements de {{ requested_user.username }}</h5>
+{% endif %}
+<hr>
 {% for instance in tickets_and_reviews %}
     {% if instance|model_type == 'Ticket' %}
         <div class="container__feed ticket {% if instance.has_review %}reviewed{% endif %}">
@@ -50,6 +74,9 @@
         </div>
         <hr>
     {% endif %}
+    {% empty %}
+        <p>Aucune critique créé.</p>
+        <p>Aucune demande créé.</p>
 {% endfor %}
 
 {% endblock content %}
