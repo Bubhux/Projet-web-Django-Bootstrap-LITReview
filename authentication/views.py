@@ -7,6 +7,7 @@ from . import forms
 
 
 class LoginPageView(View):
+    """Vue de la page de connexion"""
     form_class = forms.LoginForm
     template_name = 'authentication/login.html'
 
@@ -27,7 +28,6 @@ class LoginPageView(View):
             if user is not None:
                 login(request, user)
                 return redirect('home')
-
             else:
                 message = 'Identifiants invalides.'
 
@@ -36,6 +36,7 @@ class LoginPageView(View):
 
 
 class SignUpPage(View):
+    """Vue de la page d'inscription"""
     form_class = forms.SignUpForm
     template_name = 'authentication/signup.html'
 

@@ -114,30 +114,18 @@
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'flux' %}">Flux</a>
+                            <a class="nav-link {% if request.resolver_match.view_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Posts</a>
+                            <a class="nav-link {% if request.resolver_match.view_name == 'flux' %}active{% endif %}" href="{% url 'flux' %}">Flux</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Abonnements
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name == 'followers_page' %}active{% endif %}" href="{% url 'followers_page' user.username %}">Abonnements</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </nav>
@@ -150,7 +138,7 @@
                 <div class="border rounded col-md-2 sidebar {% if not user.is_authenticated %} sidebar-full-height{% endif %}">
                     <!--<h1 class="h3">LiteReview</h1>-->
 
-                    <p class="mb-1">Bonjour, {{ user }} !</p>
+                    <p class="mb-2 mt-2">Bonjour, {{ user }} !</p>
 
                     {% if user.profile_photo %}
                         <div>
@@ -164,8 +152,9 @@
                         {% if user.username %}
                             <p class="mt-1 mb-1"><a class="text-decoration-none" href="{% url 'user_profile' user.username %}">Mon profil</a></p>
                         {% endif %}
-
-                        <p>Vous êtes connecté en tant que {{ user }}. <a class="text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a></p>
+                        <p><a class="text-decoration-none" href="{% url 'update_profile_photo' %}">Changer la photo de profil</a></p>
+                        <p>Vous êtes connecté en tant que {{ user }}.</p>
+                        <a class="text-decoration-none" href="{% url 'logout' %}">Se déconnecter</a>
                     </div>
                 </div>
         {% endif %}
@@ -181,7 +170,6 @@
                 <div class="card-header">LITReview</div>
                 <div class="card-body">
                     <h5 class="card-title fs-6">Le site des passionnés des livres</h5>
-                    <!--<p class="card-text fs-6">With supporting text below as a natural lead-in to additional content.</p>-->
                     <a href="#" class="btn btn-primary btn-sm mt-3">Retourner en haut</a>
                     <div class="position-absolute bottom-0 end-0 mt-2">
                         <div class="d-flex justify-content-end align-items-start">

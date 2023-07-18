@@ -2,7 +2,7 @@
 
 <a href="{% url 'update_profile_photo' %}">
     {% if user.profile_photo %}
-        <img class="profile-pic rounded mb-2" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil" style="width: 80px; height: 80px;">
+        <img class="profile-pic rounded mb-2 mt-2" src="{{ user.profile_photo.url }}" alt="Changer la photo de profil" title="Changer la photo de profil" style="width: 80px; height: 80px;">
     {% else %}
         <img class="profile-pic rounded mb-2" src="{% static 'pictures/default_profile.png' %}" style="width: 80px; height: 80px;">
     {% endif %}
