@@ -144,7 +144,8 @@ Créer ou utiliser un utilisateur déja présent dans la base de données.
 <div id="rapport-flake8"></div>
 
 ## Rapport avec flake8   
--Le repository contient un rapport flake8, qui renvoi ```All good! No flake8 errors found in 20 files scanned```. &rarr; ([.flake8](.flake8))   
+-Le repository contient un rapport flake8, qui renvoi ```All good! No flake8 errors found in 20 files scanned```.   
+&rarr; ([.flake8](.flake8))   
 -Il est possible d'en générer un nouveau en installant le module ```flake8``` s'il n'est pas installé.   
 **-Installation de flake8 en entrant dans votre terminal la commande:**   
 
