@@ -157,8 +157,9 @@ pip install flake8-html
 
 ```bash
 [flake8]
-exclude = .git, env, .gitignore, static, node_modules, static, **/templates/
+exclude = .git, env, .gitignore, static, node_modules, , static, service/admin.py, *tests.py, **/templates/, **/migrations/
 max-line-length = 119
+ignore = F401, F841, F821
 ```
 **-Tapez dans votre terminal la commande:**   
 ```bash
