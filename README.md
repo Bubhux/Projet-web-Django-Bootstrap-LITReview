@@ -1,3 +1,5 @@
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) ![Built with Django](/LITReview/static/built-with-django.svg) ![Built with Bootstrap](/LITReview/static/built-with-bootstrap.svg)
+
 # Menu   
 1. **[Informations générales](#informations-générales)** 
 2. **[Fonctionnalitées](#fonctionnalitées)** 
@@ -14,7 +16,7 @@
 <div id="informations-générales"></div>
 
 ## OpenClassrooms projet 9   
-- Création d'une application web développé sur Django et Bootsrap permettant à des utilisateurs de demander des critiques de livres ou d'articles.   
+- Création d'une application web développé sur Django et Bootstrap permettant à des utilisateurs de demander des critiques de livres ou d'articles.   
 - L'application est un réseau social permettant de demander et poster des critiques de livres.   
 
 <div id="fonctionnalitées"></div>
@@ -67,7 +69,7 @@ Programme élaboré avec les logiciels suivants:
 -Python v3.7.2 choisissez la version adaptée à votre ordinateur et système. Python est disponible à l'adresse suivante   
  &rarr; https://www.python.org/downloads/    
 -Django 3.2.19   
--Bootsrap 5.3.0   
+-Bootstrap 5.3.0   
  &rarr; https://getbootstrap.com/   
 -Visual Studio Code 1.70.2   
 -Windows 7 professionnel SP1   
@@ -192,7 +194,7 @@ Dossier ou sont stockés les fichiers images des utilisateurs.
 Dossier des téléchargements des outils tels que Boostrap.   
 
 -**Le dossier static**   
-Dossier qui contient les differents fichiers de configuration CSS et JS lié à Bootsrap.   
+Dossier qui contient les differents fichiers de configuration CSS et JS lié à Bootstrap.   
 
 -**Le fichier package.json**   
     Contient la configurations du projet, les dépendances, les versions.
