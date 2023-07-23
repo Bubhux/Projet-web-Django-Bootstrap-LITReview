@@ -1,4 +1,4 @@
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) ![Built with Django](/static/pictures/built-with-django.svg) ![Built with Bootstrap](/LITReview/static/pictures/built-with-bootstrap.svg)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) ![Built with Django](/static/pictures/built-with-django.svg) ![Built with Bootstrap](/static/pictures/built-with-bootstrap.svg)
 
 # Menu   
 1. **[Informations générales](#informations-générales)** 
