@@ -62,6 +62,7 @@ class UserAdmin(admin.ModelAdmin):
         Renvoie le nom d'utilisateur d'un utilisateur donné.
         """
         return obj.username
+
     username_column.short_description = "Nom d'utilisateur"
 
     def follows_count_column(self, obj):
@@ -69,6 +70,7 @@ class UserAdmin(admin.ModelAdmin):
         Renvoie le nombre d'utilisateurs suivis par un utilisateur donné.
         """
         return obj.follows.count()
+
     follows_count_column.short_description = "Nombre d'utilisateurs suivis"
 
     list_display = ('username_column', 'follows_count_column')
