@@ -128,7 +128,7 @@
                             <a href="{% url 'edit_ticket' instance.id %}"><button type="submit" class="btn btn-primary mt-2">Éditer / supprimer la demande</button></a>
                         {% endif %}
                         {% if instance.has_review == False %}
-                            <a href="{% url 'create_review' instance.id %}"><button type="submit" class="btn btn-success mt-3">Poster une critique</button></a>
+                            <a href="{% url 'create_review' instance.id %}"><button type="submit" class="btn btn-success mt-2">Poster une critique</button></a>
                         {% endif %}
                     </div>
                 </div>
