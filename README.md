@@ -1,4 +1,4 @@
-[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com) ![Built with Django](/static/pictures/built-with-django.svg) ![Built with Bootstrap](/static/pictures/built-with-bootstrap.svg)
+![Static Badge](https://img.shields.io/badge/BUILD_WITH-PYTHON-red?style=for-the-badge&logo=python) ![Static Badge](https://img.shields.io/badge/BUILD_WITH-DJANGO-blue?style=for-the-badge&logo=django) ![Static Badge](https://img.shields.io/badge/BUILD_WITH-BOOTSTRAP-blue?style=for-the-badge&logo=bootstrap)
 
 # Menu   
 1. **[Informations générales](#informations-générales)** 
