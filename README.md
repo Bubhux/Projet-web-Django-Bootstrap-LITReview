@@ -17,7 +17,7 @@
 
 <div id="informations-générales"></div>
 
-### OpenClassrooms projet 9   
+### Projet LITReview
 
 - Création d'une application web développé sur Django et Bootstrap permettant à des utilisateurs de demander des critiques de livres ou d'articles.   
 - L'application est un réseau social permettant de demander et poster des critiques de livres.   
