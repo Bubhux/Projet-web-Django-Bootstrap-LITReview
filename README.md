@@ -17,11 +17,8 @@
 
 <div id="informations-générales"></div>
 
-<<<<<<< HEAD
 ### OpenClassrooms projet 9   
-=======
-## Projet web Django & Bootstrap   
->>>>>>> 26804c00f3b025c075a01cc9b61cea0109c89d48
+
 - Création d'une application web développé sur Django et Bootstrap permettant à des utilisateurs de demander des critiques de livres ou d'articles.   
 - L'application est un réseau social permettant de demander et poster des critiques de livres.   
 
