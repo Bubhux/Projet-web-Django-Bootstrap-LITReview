@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 ![Static Badge](static/badges/build-with-python.svg) ![Static Badge](static/badges/build-with-django.svg) ![Static Badge](static/badges/build-with-bootstrap.svg)
 
 <div id="top"></div>
-=======
-![Static Badge](https://img.shields.io/badge/BUILD_WITH-PYTHON-red?style=for-the-badge&logo=python) ![Static Badge](https://img.shields.io/badge/BUILD_WITH-DJANGO-blue?style=for-the-badge&logo=django) ![Static Badge](https://img.shields.io/badge/BUILD_WITH-BOOTSTRAP-blue?style=for-the-badge&logo=bootstrap)
->>>>>>> 26804c00f3b025c075a01cc9b61cea0109c89d48
 
 # Menu   
 1. **[Informations générales](#informations-générales)** 
