@@ -65,7 +65,7 @@
 - ``Créer`` et ``modifier`` des abonnements.   
 
 
-Identifiant : **Admin** | Mot de passe : **Admin123** ➔ http://127.0.0.1:8000/admin/
+Identifiant : **Admin** | Mot de passe : **Admin123** ➔ http://127.0.0.1:8000/admin/   
 
 #### Utilisateurs de test enregistrés dans la basse de données    
 
