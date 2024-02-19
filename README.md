@@ -16,9 +16,10 @@
 6. **[Activation environnement](#activation-environnement)**   
 7. **[Installation des librairies](#installation-librairies)**   
 8. **[Exécution de l'application](#execution-application)**   
-9. **[Rapport avec flake8](#rapport-flake8)**   
-10. **[Informations importantes sur les différents fichiers et dossiers](#informations-importantes)**   
-11. **[Auteur et contact](#auteur-contact)**   
+9. **[Capture d'écran de l'interface](#capture-ecran)**   
+10. **[Rapport avec flake8](#rapport-flake8)**   
+11. **[Informations importantes sur les différents fichiers et dossiers](#informations-importantes)**   
+12. **[Auteur et contact](#auteur-contact)**   
 
 <div id="informations-générales"></div>
 
@@ -178,13 +179,32 @@ $ python manage.py runserver
 ```
 
 2. Lancement de l'application dans le navigateur de votre choix.   
-Se rendre à l'adresse ➔ http://127.0.0.1:8000/   
+Se rendre à l'adresse ➔ http://127.0.0.1:8000/    
 
-**Page de connexion**   
+--------------------------------------------------------------------------------------------------------------------------------
 
-![Page de connexion](static/pictures/screen-login.png/)
+<div id="capture-ecran"></div>
+<a href="#top" style="float: right;">Retour en haut 🡅</a>
 
-Créer ou utiliser un utilisateur déja présent dans la base de données.   
+### Interface de l'application   
+
+. **Capture d'écran de la page de connexion**   
+
+![Page de connexion](static/pictures/screen-login.png/)   
+
+>*Note : Créer ou utiliser un utilisateur déja présent dans la base de données.*   
+
+. **Capture d'écran du menu home.**   
+
+![Screen home](static/pictures/screen_home.png)   
+
+. **Capture d'écran du menu flux.**   
+
+![Screen flux](static/pictures/screen_flux.png)   
+
+. **Capture d'écran du menu des abonnements.**   
+
+![Screen followers](static/pictures/screen_followers.png)   
 
 **Navigateur.**   
 >*Note : Les tests ont était fait sur Firefox et Google Chrome.*   
