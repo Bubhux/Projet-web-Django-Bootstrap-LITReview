@@ -23,7 +23,7 @@
 
 <div id="informations-générales"></div>
 
-### Projet LITReview <img src="static/pictures/logo_w.png" alt="Icon LITReview" style="vertical-align: middle; margin-top: -5px;" width="50">   
+### Projet LITReview ![Icon chess](static/pictures/litreview_icon.png)   
 
 - Création d'une application web développé sur **Django** et **Bootstrap** permettant à des utilisateurs de demander des critiques de livres ou d'articles.   
 - L'application est un réseau social permettant de demander et poster des critiques de livres.   
