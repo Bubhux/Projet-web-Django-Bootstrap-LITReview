@@ -1,4 +1,6 @@
 __pycache__/**
 .vscode/
 env/
+flake-report/
+node_modules/
 /reports/flake8
