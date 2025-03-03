@@ -98,7 +98,7 @@ Programme élaboré avec les logiciels suivants:
 
   - Pour ouvrir un terminal sur **Windows**, pressez la touche ```windows + r``` et entrez ```cmd```.   
   - Sur **Mac**, pressez la touche ```command + espace``` et entrez ```terminal```.   
-  - Sur **Linux**, vous pouvez ouviri un terminal en pressant les touches ```Ctrl + Alt + T```.   
+  - Sur **Linux**, vous pouvez ouvrir un terminal en pressant les touches ```Ctrl + Alt + T```.   
 
 --------------------------------------------------------------------------------------------------------------------------------
 
