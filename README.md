@@ -146,7 +146,9 @@ $ deactivate
 <div id="installation-librairies"></div>
 <a href="#top" style="float: right;">Retour en haut 🡅</a>
 
-### Installation des librairies   
+### Installation des librairies et dépendances   
+
+##### 1. Installer les librairies  
 
 - Le programme utilise plusieurs librairies externes et modules de **Python**, qui sont répertoriés dans le fichier ```requirements.txt```.   
 - Placez-vous dans le dossier où se trouve le fichier ``requirements.txt`` avec le terminal, **l'environnement virtuel doit être activé**.   
@@ -158,6 +160,15 @@ Taper dans votre terminal la commande :
 ```bash  
 $ pip install -r requirements.txt
 ```   
+
+##### 2. Installer les dépendances   
+
+  - Dans un terminal exécuter la commande suivante dans le répertoire du projet.   
+  - Cela installera toutes les dépendances spécifiées dans le fichier ``package.json`` ➔ ([package.json](package.json)).   
+
+```bash   
+$ npm install
+```  
 
 --------------------------------------------------------------------------------------------------------------------------------
 
